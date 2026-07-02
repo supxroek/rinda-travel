@@ -1,0 +1,451 @@
+// prisma/schema.prisma
+// Rinda Travel — Full CMS-Ready Database Schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// AUTH (Better Auth compatible)
+// ============================================================
+
+model User {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  image         String?
+  role          UserRole @default(USER)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sessions Session[]
+  accounts Account[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("sessions")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  userId                String
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("accounts")
+}
+
+model Verification {
+  id         String    @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
+
+  @@map("verifications")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+// ============================================================
+// CATEGORIES
+// ============================================================
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  icon      String?  // icon name (hugeicons)
+  color     String?  // hex color
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+
+  tours     Tour[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("categories")
+}
+
+// ============================================================
+// TOURS
+// ============================================================
+
+model Tour {
+  id            String     @id @default(cuid())
+  slug          String     @unique
+  title         String
+  excerpt       String     @db.Text
+  content       String     @db.Text // Tiptap JSON string
+  coverImage    String
+  gallery       String[]   // Array of image URLs
+  
+  // Pricing
+  price         Decimal    @db.Decimal(10, 2)
+  priceOld      Decimal?   @db.Decimal(10, 2)
+  currency      String     @default("THB")
+  
+  // Details
+  duration      Int        // จำนวนวัน
+  nights        Int        @default(0) // จำนวนคืน
+  maxGroupSize  Int        @default(20)
+  minGroupSize  Int        @default(1)
+  difficulty    Difficulty @default(EASY)
+  
+  // Location
+  destinations  String[]   // ["Bangkok", "Chiang Mai"]
+  departureFrom String?    // จุดออกเดินทาง
+  mapUrl        String?
+  
+  // Status & Visibility
+  status        TourStatus @default(DRAFT)
+  featured      Boolean    @default(false)
+  isActive      Boolean    @default(true)
+  
+  // Content
+  tags          String[]
+  includes      String[]   // สิ่งที่รวมในทัวร์
+  excludes      String[]   // สิ่งที่ไม่รวม
+  requirements  String[]   // สิ่งที่ต้องเตรียม
+  startDates    DateTime[]
+  videoUrl      String?
+  
+  // SEO
+  metaTitle     String?
+  metaDesc      String?
+  
+  // Analytics
+  viewCount     Int        @default(0)
+  
+  // Relations
+  categoryId    String?
+  category      Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  itinerary     Itinerary[]
+  reviews       Review[]
+  promotions    PromotionTour[]
+  faqs          TourFaq[]
+
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@map("tours")
+}
+
+model Itinerary {
+  id            String   @id @default(cuid())
+  tourId        String
+  tour          Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  day           Int
+  title         String
+  description   String   @db.Text
+  meals         String[] // ["breakfast", "lunch", "dinner"]
+  accommodation String?
+  activities    String[]
+  sortOrder     Int      @default(0)
+
+  @@map("itineraries")
+}
+
+model TourFaq {
+  id       String @id @default(cuid())
+  tourId   String
+  tour     Tour   @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  question String
+  answer   String @db.Text
+  sortOrder Int   @default(0)
+
+  @@map("tour_faqs")
+}
+
+enum Difficulty {
+  EASY
+  MODERATE
+  CHALLENGING
+}
+
+enum TourStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+// ============================================================
+// BLOG / POSTS
+// ============================================================
+
+model Post {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  title       String
+  excerpt     String     @db.Text
+  content     String     @db.Text // Tiptap JSON string
+  coverImage  String?
+  
+  tags        String[]
+  status      PostStatus @default(DRAFT)
+  featured    Boolean    @default(false)
+  
+  // SEO
+  metaTitle   String?
+  metaDesc    String?
+  
+  // Analytics
+  viewCount   Int        @default(0)
+  publishedAt DateTime?
+
+  // Author (optional link to user)
+  authorName  String?
+  authorImage String?
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@map("posts")
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+// ============================================================
+// PROMOTIONS
+// ============================================================
+
+model Promotion {
+  id           String       @id @default(cuid())
+  slug         String       @unique
+  title        String
+  description  String       @db.Text
+  image        String?
+  
+  // Discount Config
+  discount     Decimal      @db.Decimal(10, 2)
+  discountType DiscountType @default(PERCENTAGE)
+  code         String?      @unique // Promo code (optional)
+  
+  // Validity
+  startDate    DateTime
+  endDate      DateTime
+  isActive     Boolean      @default(true)
+  
+  // Usage limits
+  usageLimit   Int?
+  usageCount   Int          @default(0)
+  
+  // SEO
+  metaTitle    String?
+  metaDesc     String?
+
+  tours        PromotionTour[]
+
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@map("promotions")
+}
+
+model PromotionTour {
+  promotionId String
+  tourId      String
+  promotion   Promotion @relation(fields: [promotionId], references: [id], onDelete: Cascade)
+  tour        Tour      @relation(fields: [tourId], references: [id], onDelete: Cascade)
+
+  @@id([promotionId, tourId])
+  @@map("promotion_tours")
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+// ============================================================
+// REVIEWS
+// ============================================================
+
+model Review {
+  id         String   @id @default(cuid())
+  tourId     String
+  tour       Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  
+  name       String
+  email      String
+  avatar     String?
+  rating     Int      // 1-5
+  comment    String   @db.Text
+  travelDate DateTime?
+  
+  isApproved Boolean  @default(false)
+  isFeatured Boolean  @default(false)
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("reviews")
+}
+
+// ============================================================
+// CONTACT / INQUIRIES
+// ============================================================
+
+model Inquiry {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String        @db.Text
+  tourId    String?       // ถ้า inquiry เกี่ยวกับทัวร์ specific
+  tourTitle String?       // ชื่อทัวร์ (snapshot)
+  source    String?       // "contact_page" | "tour_detail" | "home"
+  status    InquiryStatus @default(NEW)
+  note      String?       // Admin internal note
+
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@map("inquiries")
+}
+
+enum InquiryStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+// ============================================================
+// FAQ (Global — ไม่เกี่ยวกับทัวร์ specific)
+// ============================================================
+
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @db.Text
+  category  String?  // "booking" | "payment" | "general"
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("faqs")
+}
+
+// ============================================================
+// TESTIMONIALS (สำหรับ Home page)
+// ============================================================
+
+model Testimonial {
+  id         String   @id @default(cuid())
+  name       String
+  avatar     String?
+  location   String?
+  rating     Int      @default(5)
+  comment    String   @db.Text
+  tourTitle  String?
+  isFeatured Boolean  @default(false)
+  isActive   Boolean  @default(true)
+  sortOrder  Int      @default(0)
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("testimonials")
+}
+
+// ============================================================
+// SITE SETTINGS (Key-Value CMS)
+// ============================================================
+
+model SiteSettings {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  type      String   @default("string") // string | json | boolean | number
+  label     String?  // Human-readable label for Admin UI
+  group     String?  // "general" | "seo" | "social" | "contact"
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+// ============================================================
+// MEDIA LIBRARY
+// ============================================================
+
+model Media {
+  id        String   @id @default(cuid())
+  url       String
+  filename  String
+  mimetype  String
+  size      Int      // bytes
+  width     Int?
+  height    Int?
+  alt       String?
+  provider  String   @default("supabase") // supabase | cloudinary
+  folder    String?  // "tours" | "blog" | "promotions"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("media")
+}
+
+// ============================================================
+// BANNERS / HERO SLIDES (สำหรับ Home)
+// ============================================================
+
+model Banner {
+  id          String   @id @default(cuid())
+  title       String
+  subtitle    String?
+  image       String
+  mobileImage String?
+  ctaText     String?
+  ctaLink     String?
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("banners")
+}
