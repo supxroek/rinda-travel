@@ -60,10 +60,10 @@ export function Footer() {
                 />
               </div>
               <div>
-                <p className="font-heading font-bold text-xl text-white leading-none">
+                <p className="font-heading font-bold text-xl text-white leading-none notranslate">
                   {APP_NAME}
                 </p>
-                <p className="text-xs text-gold-400 tracking-[0.2em] mt-0.5">
+                <p className="text-xs text-gold-400 tracking-[0.2em] mt-0.5 notranslate">
                   TRAVEL & TOURS
                 </p>
               </div>
@@ -154,26 +154,30 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Link Columns */}
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title} className="space-y-4">
-              <h3 className="font-heading font-semibold text-white text-sm uppercase tracking-wider">
-                {title}
-              </h3>
-              <ul className="space-y-2.5" role="list">
-                {links.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-slate-400 hover:text-accent-foreground transition-colors duration-200"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+          <div className="md:col-span-1 lg:col-span-3">
+            <div className="grid grid-cols-2 md:flex md:flex-nowrap md:justify-center md:items-start gap-8">
+              {/* Link Columns */}
+              {Object.entries(footerLinks).map(([title, links]) => (
+                <div key={title} className="space-y-4 md:flex-1 md:max-w-50">
+                  <h3 className="font-heading font-semibold text-white text-sm uppercase tracking-wider">
+                    {title}
+                  </h3>
+                  <ul className="space-y-2.5" role="list">
+                    {links.map((link) => (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          className="text-sm text-slate-400 hover:text-accent-foreground transition-colors duration-200"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
 

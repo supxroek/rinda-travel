@@ -144,7 +144,7 @@ export function MobileMenu({ isOpen }) {
           </a>
           <a
             href={SOCIAL_LINKS.whatsapp}
-            className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors"
+            className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors notranslate"
           >
             <HugeiconsIcon
               icon={WhatsappIcon}
@@ -155,7 +155,7 @@ export function MobileMenu({ isOpen }) {
           </a>
           <a
             href={SOCIAL_LINKS.line}
-            className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors"
+            className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors notranslate"
           >
             <HugeiconsIcon
               icon={LineIcon}

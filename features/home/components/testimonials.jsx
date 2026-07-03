@@ -89,9 +89,8 @@ export function Testimonials() {
 
       <div className="container-lg relative z-10">
         <SectionHeader
-          badge="รีวิวจากลูกค้า"
-          title="ลูกค้าพูดถึงเราว่าอย่างไร"
-          description="ความประทับใจจากลูกค้าที่เดินทางกับเรามาแล้วกว่า 15,000 คน"
+          title="What are customers saying about us?"
+          description="The positive feedback from over 15,000 customers who have traveled with us."
           className="mb-12 *:text-white [&_p]:text-white/70 [&_span]:bg-white/10 [&_span]:text-white [&_span]:border-white/20"
         />
 
@@ -105,10 +104,10 @@ export function Testimonials() {
         {/* CTA */}
         <div className="text-center mt-12">
           <p className="text-white/60 text-sm mb-4">
-            พร้อมเริ่มการเดินทางกับเราแล้วหรือยัง?
+            Are you ready to start your journey with us?
           </p>
           <a href="/tours" className="btn-navy" id="testimonials-cta-btn">
-            ดูแพ็คเกจทัวร์ทั้งหมด
+            See all tour packages
           </a>
         </div>
       </div>

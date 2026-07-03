@@ -11,48 +11,49 @@ import {
   HotPriceIcon,
 } from "@hugeicons/core-free-icons";
 import { SectionHeader } from "@/components/common/section-header";
+import { FOUNDEDYEAR } from "@/lib/constants";
 
 const reasons = [
   {
     icon: StarAward01Icon,
-    title: "ประสบการณ์กว่า 10 ปี",
+    title: `Over ${FOUNDEDYEAR} years of experience`,
     description:
-      "ดำเนินธุรกิจมานานกว่าทศวรรษ มีความเชี่ยวชาญและเครือข่ายพันธมิตรที่แข็งแกร่ง",
+      "We are a long-standing and experienced travel service provider in Phuket.",
     color: "text-blue-600 bg-blue-50",
   },
   {
     icon: UserGroupIcon,
-    title: "ไกด์มืออาชีพ",
+    title: "Professional guides",
     description:
-      "ทีมมัคคุเทศก์ที่ผ่านการอบรม มีใบอนุญาต พูดได้หลายภาษา และดูแลทุกคนอย่างใส่ใจ",
+      "A team of trained and licensed guides who speak multiple languages and provide attentive care to everyone.",
     color: "text-navy-600 bg-navy-50",
   },
   {
     icon: HotPriceIcon,
-    title: "ราคาคุ้มค่า",
+    title: "Great value",
     description:
-      "แพ็คเกจครบครันในราคาที่ยุติธรรม ไม่มีค่าใช้จ่ายซ่อนเร้น ชำระได้หลายช่องทาง",
+      "A comprehensive package at a fair price with no hidden costs and multiple payment options.",
     color: "text-gold-700 bg-yellow-50",
   },
   {
     icon: ShieldUserIcon,
-    title: "ปลอดภัยมั่นใจ",
+    title: "Safe and secure",
     description:
-      "ประกันอุบัติเหตุครอบคลุมตลอดทริป พาหนะมาตรฐาน โรงแรมผ่านการคัดสรร",
+      "Comprehensive accident insurance for the entire trip, standard vehicles, and carefully selected hotels.",
     color: "text-green-600 bg-green-50",
   },
   {
     icon: HeadsetIcon,
-    title: "ซัพพอร์ต 24/7",
+    title: "24/7 support",
     description:
-      "ทีมงานพร้อมช่วยเหลือตลอด 24 ชั่วโมง ทางโทรศัพท์ LINE และอีเมล",
+      "Our team is available 24 hours a day to assist you via phone, LINE, WhatsApp, and other channels.",
     color: "text-purple-600 bg-purple-50",
   },
   {
     icon: Clock01Icon,
-    title: "จัดการรวดเร็ว",
+    title: "Quick handling",
     description:
-      "ยืนยันการจองภายใน 24 ชั่วโมง จัดเตรียมเอกสารครบ แจ้งรายละเอียดทุกอย่างล่วงหน้า",
+      "Confirm your reservation within 24 hours, prepare all documents, and provide all details in advance.",
     color: "text-orange-600 bg-orange-50",
   },
 ];
@@ -65,35 +66,38 @@ export function WhyChooseUs() {
     >
       <div className="container-lg">
         <SectionHeader
-          badge="ทำไมต้องเลือกเรา"
-          title="ทำไมลูกค้าไว้วางใจ Rinda Travel"
-          description="เราใส่ใจทุกรายละเอียดเพื่อให้การเดินทางของคุณสมบูรณ์แบบที่สุด"
-          className="mb-14"
+          title="Why choose Rinda Travel"
+          description="We pay attention to every detail to ensure your journey is as perfect as possible."
+          className="mb-10"
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {reasons.map((reason, index) => (
             <div
               key={reason.title}
-              className="bg-white rounded-2xl p-6 card-shadow card-shadow-hover transition-all duration-300 hover:-translate-y-1 group"
+              className="flex gap-4 bg-white rounded-2xl p-6 card-shadow card-shadow-hover transition-all duration-300 hover:-translate-y-1 group"
               style={{ animationDelay: `${index * 80}ms` }}
             >
               {/* Icon */}
               <div
-                className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 ${reason.color} group-hover:scale-110 transition-transform duration-300`}
+                className={`w-12 h-12 rounded-full flex items-center justify-center ${reason.color} group-hover:scale-110 transition-transform duration-300`}
               >
                 <HugeiconsIcon
                   icon={reason.icon}
                   className="w-6 h-6"
-                  strokeWidth={1.5}
+                  strokeWidth={2}
                 />
               </div>
 
               {/* Content */}
-              <h3 className="heading-sm text-navy-800 mb-2">{reason.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {reason.description}
-              </p>
+              <div className="flex-1 min-w-0">
+                <h3 className="heading-sm text-navy-800 mb-2">
+                  {reason.title}
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {reason.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>

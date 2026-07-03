@@ -18,19 +18,18 @@ export function FeaturedTours() {
     >
       <div className="container-lg">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-5">
           <SectionHeader
             align="left"
-            badge="แพ็คเกจยอดนิยม"
-            title="ทัวร์ที่ลูกค้านิยมสูงสุด"
-            description="คัดสรรแพ็คเกจที่ดีที่สุด คุ้มค่าที่สุด ดูแลโดยทีมมัคคุเทศก์มืออาชีพ"
+            title="Popular Tours"
+            description="Choose the best and most cost-effective package, curated by a team of professional experts."
           />
           <Link
             href="/tours"
-            className="flex items-center gap-2 text-sm font-semibold text-navy-600 hover:text-navy-800 transition-colors shrink-0 group"
+            className="hidden lg:flex items-center gap-2 text-sm font-semibold text-navy-600 hover:text-navy-800 transition-colors shrink-0 group"
             id="view-all-tours-link"
           >
-            ดูทัวร์ทั้งหมด
+            See all tours
             <HugeiconsIcon
               icon={ArrowRight01Icon}
               className="w-4 h-4 group-hover:translate-x-1 transition-transform"
@@ -45,6 +44,19 @@ export function FeaturedTours() {
             <TourCard key={tour.id} tour={tour} index={index} />
           ))}
         </div>
+
+        <Link
+          href="/tours"
+          className="lg:hidden! flex! btn-navy text-xs px-4 py-2 mt-10"
+          id="view-all-tours-link"
+        >
+          See all tours
+          <HugeiconsIcon
+            icon={ArrowRight01Icon}
+            className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+            strokeWidth={2}
+          />
+        </Link>
       </div>
     </section>
   );

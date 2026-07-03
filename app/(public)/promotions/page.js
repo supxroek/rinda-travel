@@ -37,7 +37,7 @@ export default function PromotionsPage() {
                 className="bg-white rounded-2xl overflow-hidden card-shadow flex flex-col md:flex-row"
               >
                 {/* Image */}
-                <div className="relative w-full md:w-2/5 aspect-[4/3] md:aspect-auto">
+                <div className="relative w-full md:w-2/5 aspect-4/3 md:aspect-auto">
                   <Image
                     src={promo.image || "/images/placeholder.jpg"}
                     alt={promo.title}

@@ -13,6 +13,7 @@ import {
   Airplane01Icon,
 } from "@hugeicons/core-free-icons";
 import { FOUNDEDYEAR } from "@/lib/constants";
+import { MOCK_STATS } from "@/lib/mock-data";
 
 const destinations = [
   "Chiang Mai",
@@ -31,13 +32,6 @@ const words = [
   "your dream vacation",
 ];
 
-const stats = [
-  { value: "15,000" + "+", label: "Satisfied customers" },
-  { value: "200" + "+", label: "Tour package" },
-  { value: FOUNDEDYEAR + " years", label: "Experience" },
-  { value: "4.9★", label: "Review score" },
-];
-
 export function HeroSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentWord, setCurrentWord] = useState(0);
@@ -51,7 +45,7 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-screen flex items-center overflow-hidden shadow-2xl"
       aria-label="hero section"
     >
       {/* Background Image */}
@@ -111,7 +105,7 @@ export function HeroSection() {
           </h1>
 
           {/* Sub */}
-          <p className="text-white/75 text-base md:text-lg leading-relaxed mb-10 max-w-lg animate-fade-in">
+          <p className="text-white/75 text-sm md:text-lg leading-relaxed mb-10 max-w-lg animate-fade-in">
             Complete travel services including airport transfers, chauffeur and
             self-drive car rentals, tour packages, ferry tickets, sightseeing
             activities, and attraction tickets—designed to make every journey
@@ -152,7 +146,7 @@ export function HeroSection() {
                 className="w-3.5 h-3.5"
                 strokeWidth={1.5}
               />
-              Most popular:
+              Popular:
             </span>
             {destinations.map((dest) => (
               <Link
@@ -171,7 +165,7 @@ export function HeroSection() {
       <div className="hidden md:block absolute bottom-0 left-0 right-0 glass-navy border-t border-white/10">
         <div className="container-lg py-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 divide-x divide-white/10">
-            {stats.map((stat) => (
+            {MOCK_STATS.map((stat) => (
               <div key={stat.label} className="text-center px-2">
                 <p className="font-heading font-bold text-lg md:text-xl text-white">
                   {stat.value}

@@ -6,7 +6,7 @@ import { APP_NAME, APP_DESCRIPTION, APP_URL } from "@/lib/constants";
 // Sections
 import { HeroSection } from "@/features/home/components/hero-section";
 import { FeaturedTours } from "@/features/home/components/featured-tours";
-import { CategoriesSection } from "@/features/home/components/categories-section";
+import { BenefitSection } from "@/features/home/components/benefit-section";
 import { WhyChooseUs } from "@/features/home/components/why-choose-us";
 import { Testimonials } from "@/features/home/components/testimonials";
 
@@ -22,7 +22,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <CategoriesSection />
+      <BenefitSection />
       <FeaturedTours />
       <WhyChooseUs />
       <Testimonials />

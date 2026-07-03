@@ -342,7 +342,7 @@
 
     /* ── Spacing ─── */
     .section-py {
-        @apply py-16 md:py-20 lg:py-24;
+        @apply py-16 md:py-20;
     }
     .section-gap {
         @apply space-y-16 md:space-y-20 lg:space-y-24;
