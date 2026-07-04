@@ -521,6 +521,37 @@
 }
 
 /* ============================================================
+   NAVBAR — Transparent mode: force NavigationMenuTrigger to white
+   Selector targets the wrapper div[data-transparent="true"] set
+   by navbar.jsx when the header has not been scrolled yet.
+   ============================================================ */
+
+/* Trigger text color in transparent mode */
+[data-transparent="true"] [data-slot="navigation-menu-trigger"] {
+    color: rgb(255 255 255 / 80%);
+}
+
+/* Trigger hover + open state */
+[data-transparent="true"] [data-slot="navigation-menu-trigger"]:hover,
+[data-transparent="true"] [data-slot="navigation-menu-trigger"][data-state="open"] {
+    color: rgb(255 255 255);
+    background-color: rgb(255 255 255 / 10%);
+}
+
+/* Chevron inside trigger */
+[data-transparent="true"] [data-slot="navigation-menu-trigger"] svg {
+    color: inherit;
+}
+
+/* Dropdown panel — slightly elevated shadow */
+[data-slot="navigation-menu-content"] {
+    box-shadow:
+        0 4px 6px -1px rgb(0 0 0 / 6%),
+        0 24px 56px -12px rgb(0 0 0 / 18%);
+}
+
+
+/* ============================================================
    SCROLLBAR
    ============================================================ */
 ::-webkit-scrollbar {
