@@ -3,10 +3,10 @@
 
 import Link from "next/link";
 import { MOCK_TOURS } from "@/lib/mock-data";
-import { TourCard } from "@/features/tours/components/tour-card";
 import { SectionHeader } from "@/components/common/section-header";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { TourCard } from "@/features/tours/components/tour-card";
 
 export function FeaturedTours() {
   const featured = MOCK_TOURS.filter((t) => t.featured).slice(0, 3);

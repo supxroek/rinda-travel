@@ -10,9 +10,11 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Cancel01Icon,
   Menu01Icon,
+  Call02Icon,
+  MailReceive02Icon,
   Airplane01Icon,
 } from "@hugeicons/core-free-icons";
-import { NAV_LINKS, APP_NAME } from "@/lib/constants";
+import { NAV_LINKS, APP_NAME, APP_EMAIL, APP_PHONE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/stores/ui-store";
 import { MobileMenu } from "./mobile-menu";
@@ -51,6 +53,54 @@ export function Navbar() {
         />
 
         <nav className="container-lg relative z-10">
+          {/* Brandner */}
+          <div className="hidden md:flex items-center justify-between h-10">
+            <div className="flex gap-10">
+              <a
+                href={APP_EMAIL}
+                className={cn(
+                  "flex items-end gap-2 text-sm hover:text-gray-300 transition-colors",
+                  isScrolled
+                    ? "text-gray-500 hover:text-gray-700"
+                    : "text-gray-400 hover:text-gray-300",
+                )}
+              >
+                <HugeiconsIcon
+                  icon={MailReceive02Icon}
+                  className={cn(
+                    "w-4 h-4 shrink-0",
+                    isScrolled ? "text-gray-700" : "text-gray-400",
+                  )}
+                  strokeWidth={1}
+                />
+                <span>{APP_EMAIL}</span>
+              </a>
+
+              <a
+                href={APP_EMAIL}
+                className={cn(
+                  "flex items-end gap-2 text-sm transition-colors",
+                  isScrolled
+                    ? "text-gray-500 hover:text-gray-700"
+                    : "text-gray-400 hover:text-gray-300",
+                )}
+              >
+                <HugeiconsIcon
+                  icon={Call02Icon}
+                  className={cn(
+                    "w-4 h-4 shrink-0",
+                    isScrolled ? "text-gray-700" : "text-gray-400",
+                  )}
+                  strokeWidth={1}
+                />
+                <span>{APP_PHONE}</span>
+              </a>
+            </div>
+            {/* GTranslate */}
+            <GTranslate flag_size={28} flag_style="2d" />
+          </div>
+
+          {/* Main Navigation */}
           <div className="flex items-center justify-between h-16 md:h-18">
             {/* Logo */}
             <Link
@@ -97,7 +147,9 @@ export function Navbar() {
 
             {/* Desktop Navigation */}
             <ul className="hidden lg:flex items-center gap-1" role="list">
-              {NAV_LINKS.map((link) => {
+              {NAV_LINKS.filter(
+                (link) => !["Blog", "About", "Contact"].includes(link.label),
+              ).map((link) => {
                 const isActive =
                   link.href === "/"
                     ? pathname === "/"
@@ -130,7 +182,7 @@ export function Navbar() {
             {/* Right side — CTA */}
             <div className="flex items-center gap-5">
               {/* GTranslate */}
-              <GTranslate flag_size={28} flag_style="2d" />
+              {/* <GTranslate flag_size={28} flag_style="2d" />*/}
 
               {/* Contact Button */}
               <Link
